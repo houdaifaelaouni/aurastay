@@ -1,0 +1,192 @@
+{
+  "project_title": "AuraStay - Rental Marketplace & Agency Management Platform",
+  "design_archetype": "Organic Warmth & Swiss Financial Precision",
+  "theme": "Light theme preferred for guest catalogue (warm Mediterranean bone-white & sandstone background with charcoal text), dark/zinc contrast accent surfaces for financial clarity",
+  "typography": {
+    "font_family_display": "'Cabinet Grotesk', 'Playfair Display', sans-serif",
+    "font_family_body": "'Plus Jakarta Sans', 'Inter', sans-serif",
+    "font_family_mono": "'JetBrains Mono', 'IBM Plex Mono', monospace",
+    "headings": {
+      "h1_catalogue": "text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-900 font-display",
+      "h2_section": "text-2xl sm:text-3xl font-bold tracking-tight text-stone-800 font-display",
+      "h3_card": "text-lg sm:text-xl font-semibold text-stone-900 font-display",
+      "h4_widget": "text-sm sm:text-base font-semibold text-stone-800 uppercase tracking-wider"
+    },
+    "body_text": {
+      "large": "text-lg text-stone-600 leading-relaxed",
+      "default": "text-base text-stone-600 leading-normal",
+      "small": "text-sm text-stone-500 leading-normal",
+      "tiny": "text-xs text-stone-400 font-medium"
+    },
+    "currency_numeric": {
+      "kpi": "font-mono font-bold tracking-tight text-stone-900",
+      "price_tag": "font-mono font-extrabold text-emerald-700",
+      "fee_breakdown": "font-mono text-xs text-stone-500"
+    }
+  },
+  "colors": {
+    "background_primary": "#FBF9F5",
+    "background_card": "#FFFFFF",
+    "background_subtle": "#F3EFEA",
+    "background_dark": "#18181B",
+    "brand_primary": "#2D3748",
+    "brand_accent": "#D97706",
+    "brand_secondary": "#059669",
+    "brand_highlight": "#E11D48",
+    "border_subtle": "#E7E5E4",
+    "border_medium": "#D6D3D1",
+    "border_dark": "#27272A",
+    "text_main": "#1C1917",
+    "text_muted": "#57534E",
+    "text_light": "#A8A29E",
+    "status": {
+      "confirmed": "bg-emerald-100 text-emerald-800 border-emerald-200",
+      "pending_fee": "bg-amber-100 text-amber-800 border-amber-200",
+      "cancelled": "bg-rose-100 text-rose-800 border-rose-200",
+      "blocked": "bg-stone-200 text-stone-700 border-stone-300"
+    }
+  },
+  "visual_enhancers": {
+    "glassmorphism": "backdrop-blur-md bg-white/80 border border-stone-200/60 shadow-sm",
+    "glassmorphism_dark": "backdrop-blur-md bg-stone-900/80 border border-stone-800/80 shadow-lg text-white",
+    "card_shadow": "shadow-[0_4px_20px_-4px_rgba(28,25,23,0.06)] hover:shadow-[0_12px_30px_-6px_rgba(28,25,23,0.12)] transition-shadow duration-200",
+    "tracing_beam": "border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)]",
+    "border_radius": "rounded-2xl for cards/modals, rounded-xl for inputs/buttons, rounded-full for badges/pills"
+  },
+  "image_urls": {
+    "properties": [
+      {
+        "url": "https://images.unsplash.com/photo-1688646953306-5ec93eab8c06?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvciUyMGxpdmluZyUyMHJvb20lMjBkZXNpZ258ZW58MHx8fHwxNzg5NDk1MDI4fDA&ixlib=rb-4.1.0&q=85",
+        "title": "Grand Horizon Penthouse",
+        "city": "Madrid, Spain",
+        "price_per_night": 240,
+        "type": "Penthouse",
+        "capacity": 4,
+        "amenities": ["Air Conditioning", "Private Pool", "High-speed Wi-Fi", "Terrace view", "Elevator"],
+        "agency": "Iberian Estates",
+        "agency_commission_pct": 15
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1660599197053-fe0aa8d5b3a4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjB2aWxsYSUyMGV1cm9wZSUyMGFyY2hpdGVjdHVyZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc4OTQ5NTAyOHww&ixlib=rb-4.1.0&q=85",
+        "title": "Villa Sol de Marbella",
+        "city": "Marbella, Spain",
+        "price_per_night": 520,
+        "type": "Villa",
+        "capacity": 8,
+        "amenities": ["Private Pool", "Garden", "BBQ Area", "Garage", "Ocean View"],
+        "agency": "Costa Luxe Rentals",
+        "agency_commission_pct": 18
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1648881806148-e5c51179c826?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvciUyMGxpdmluZyUyMHJvb20lMjBkZXNpZ258ZW58MHx8fHwxNzg5NDk1MDI4fDA&ixlib=rb-4.1.0&q=85",
+        "title": "Palacio Real Luxury Suite",
+        "city": "Barcelona, Spain",
+        "price_per_night": 185,
+        "type": "Apartment",
+        "capacity": 3,
+        "amenities": ["Historic Balcony", "Smart TV", "Chef Kitchen", "Washing Machine"],
+        "agency": "Iberian Estates",
+        "agency_commission_pct": 12
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1549926977-c517237dee4d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjB2aWxsYSUyMGV1cm9wZSUyMGFyY2hpdGVjdHVyZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc4OTQ5NTAyOHww&ixlib=rb-4.1.0&q=85",
+        "title": "Minimalist Balearic Hideaway",
+        "city": "Ibiza, Spain",
+        "price_per_night": 390,
+        "type": "Villa",
+        "capacity": 6,
+        "amenities": ["Infinity Pool", "Yoga Deck", "Solar Energy", "Air Conditioning"],
+        "agency": "Balearic Luxury Stays",
+        "agency_commission_pct": 20
+      }
+    ],
+    "hero_banner": "https://images.unsplash.com/photo-1680526213972-6ffe80a90e4f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjB2aWxsYSUyMGV1cm9wZSUyMGFyY2hpdGVjdHVyZSUyMGV4dGVyaW9yfGVufDB8fHx8MTc4OTQ5NTAyOHww&ixlib=rb-4.1.0&q=85"
+  },
+  "layout_architecture": {
+    "guest_frontend": {
+      "first_screen": "MUST start directly with the functional Property Catalogue (search bar, filter pills, dates, price slider, and grid of properties). NOT a generic centered marketing splash.",
+      "header": "Sticky header with glassmorphism backdrop (`backdrop-blur-md bg-white/80 border-b border-stone-200/80 z-40`). Left: AuraStay logo + Agency switcher dropdown; Right: Currency indicator (€ EUR), Saved Favorites trigger, Reservation Status lookup button, and Workspace Dashboard Switcher CTA ('Agency Workspace').",
+      "catalogue_page": {
+        "search_and_filter_bar": "Integrated top bar with Location input, Date Range Picker (Check-in / Check-out), Guests count, Price Range slider (€50 - €1,000+), Amenities multiselect, and Sorting dropdown (Price Low-High, Price High-Low, Rating, Popularity).",
+        "grid_layout": "Responsive Tetris grid (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6`). Property cards feature high-res photo carousel, location badge, price per night with mono font, agency tag, and instant reservation fee pill (€10 - €30)."
+      },
+      "property_detail_modal_or_page": {
+        "layout": "2-column layout (`grid-cols-1 lg:grid-cols-12 gap-8`). Left 7 cols: Photo grid/gallery, description, specs (bedrooms, baths, guests), complete amenities checklist, agency host profile, map placeholder. Right 5 cols: Sticky Booking & Fee Calculation Widget (`sticky top-24`).",
+        "fee_calculator_widget": "Calculates: Nightly stay total = Rate * Nights. Extra services selected (e.g. Airport Transfer +€45, Cleaning +€30). Calculates non-refundable reservation fee dynamic formula: Base €10 + 3% of total stay (capped between €10 and €30).",
+        "booking_flow": "Step 1: Guest details (Name, Email, Phone, Arrival time, Special requests). Step 2: Clear financial summary breakdown showing (Accommodation Total paid upon arrival to agency, Non-refundable instant reservation fee paid now via Whop). Step 3: Whop checkout button with simulated live mode notice and instant booking status generation."
+      },
+      "reservation_status_page": {
+        "component": "Dedicated view accessible via booking code search or direct link after reservation fee checkout. Shows booking reference number, QR code placeholder, reservation fee confirmation receipt (€), payment status (Fee Paid / Booking Inquiry Sent), breakdown of balance due at check-in, host contact info, and cancellation terms."
+      }
+    },
+    "agency_workspace": {
+      "header_and_navigation": "Top toolbar with Agency Context Switcher ('Iberian Estates', 'Costa Luxe', 'Balearic Stays' or 'All Agencies [Platform Admin]'), Live Platform Fee Indicator ('Platform Fee: 2% of accommodation gross'), User badge, and Navigation Tabs.",
+      "tab_1_dashboard": {
+        "title": "Dashboard & Financial Reports",
+        "kpi_cards": [
+          "Total Gross Accommodation Volume (€)",
+          "Nights Rented & Occupancy Rate (%)",
+          "Agency Net Earnings (€ - Host share after 2% platform fee)",
+          "Platform Fee Paid (€ - 2% of total full accommodation price)",
+          "Non-Refundable Booking Fees Collected (€10 - €30 per booking)"
+        ],
+        "charts": "Recharts visual bar/area charts showing monthly revenue split (Agency Share vs Platform 2% Fee), occupancy trends, and reservation volume by property.",
+        "recent_reservations_table": "Interactive table of recent bookings with status filters (Fee Paid, Confirmed, Completed, Cancelled), fee paid badge, check-in dates, and view detail modal."
+      },
+      "tab_2_properties": {
+        "title": "Property Portfolio Management",
+        "action": "Log New Property CTA button opening rich multi-step form modal.",
+        "form_fields": "Property Name, City/Address, Property Type (Apartment, Villa, Penthouse, Chalet), Nightly Price (€), Agency Commission Rate (10% to 20%), Max Guests, Bedrooms, Bathrooms, Amenities tags, Image Upload / URL manager, Extra Accompaniment Services list (Service Name + Price in €).",
+        "calendar_blocker": "Interactive date grid per property allowing agency host to toggle availability blocks (Block Dates for maintenance / personal use)."
+      },
+      "tab_3_commissions": {
+        "title": "Commissions & Platform Settlements",
+        "summary": "Clear calculation explanation card: Platform deducts 2% of FULL accommodation price from the agency's gross commission.",
+        "table": "Per-property financial breakdown: Total Reservations, Total Accommodation Sales (€), Agency Gross Commission (€ based on 10%-20% rate), Platform 2% Fee (€), Agency Net Payout (€), Settlement Status (Paid / Pending), and Action: Download CSV Statement."
+      },
+      "tab_4_team": {
+        "title": "Team & Operations Directory",
+        "action": "Add Team Member modal (Name, Role: Property Manager, Commercial Agent, Cleaning Staff, Maintenance Tech, Phone, Email, Assigned Properties, Hourly/Contract Rate €).",
+        "view": "Grid of team cards with quick status pills (On Duty, Off Duty, On Site) and assignment tags."
+      },
+      "tab_5_expenses": {
+        "title": "Property Expenses Management",
+        "action": "Log Expense CTA button (Select Property, Expense Category: Repair, Lock/Key, Cleaning, Furniture, Utilities, Amount in €, Date, Vendor/Description, Receipt attachment toggle).",
+        "table": "Filterable expense log by property and category, total monthly expenses summary card, and CSV Export button."
+      }
+    }
+  },
+  "testing_and_attributes": {
+    "rule": "Every button, input, tab, card, and key data display element MUST include a clear kebab-case data-testid attribute.",
+    "examples": [
+      "data-testid='guest-property-catalogue'",
+      "data-testid='property-card-1'",
+      "data-testid='search-location-input'",
+      "data-testid='date-filter-checkin'",
+      "data-testid='price-sort-select'",
+      "data-testid='reservation-fee-badge'",
+      "data-testid='book-property-button'",
+      "data-testid='reservation-fee-calculator'",
+      "data-testid='whop-checkout-button'",
+      "data-testid='workspace-tab-dashboard'",
+      "data-testid='workspace-tab-properties'",
+      "data-testid='workspace-tab-commissions'",
+      "data-testid='workspace-tab-team'",
+      "data-testid='workspace-tab-expenses'",
+      "data-testid='kpi-card-total-revenue'",
+      "data-testid='kpi-card-platform-fee'",
+      "data-testid='log-property-button'",
+      "data-testid='log-expense-button'",
+      "data-testid='export-commissions-csv'"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Build a dual-sided application: Guest Catalogue & Reservation Experience on the front, and 5-page Agency & Platform Management Workspace on the back.",
+    "Use standard Tailwind CSS classes and Shadcn components where relevant. Remember files are Javascript (.js/.jsx), NOT TypeScript (.tsx).",
+    "Never apply universal CSS transition (e.g. 'transition: all') to avoid breaking transforms.",
+    "Do NOT use pure transparent background in sticky headers, overlays, or dropdowns. Always use solid or heavily blurred background (e.g. `backdrop-blur-md bg-white/90 border-b border-stone-200`).",
+    "Ensure all monetary values are formatted in Euros (€) with clear 2% platform fee mathematical transparency across the Dashboard and Commission pages.",
+    "Whop fee-only checkout flow should be interactive with clear non-refundable reservation fee calculations (€10 to €30 depending on property stay duration and total cost).",
+    "Include sample seed data for at least 4 realistic European properties, 5 agency team members, 6 reservations, and 4 expense entries so the app feels rich and immediately testable."
+  ]
+}

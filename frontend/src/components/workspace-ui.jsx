@@ -1,0 +1,11 @@
+import { useEffect, useState } from 'react';
+import { ArrowDownToLine, ArrowUpRight, CalendarDays } from 'lucide-react';
+import { Action, Field, Select } from './common';
+import { api,photoUrl } from '../lib/api';
+export const Stat = ({label,value,detail,icon:Icon,accent,id}) => <div className={`stat ${accent?'stat-accent':''}`} data-testid={`stat-${id}`}><div className="stat-top"><span data-testid={`stat-label-${id}`}>{label}</span>{Icon&&<Icon size={18}/>}</div><strong className="stat-value" data-testid={`stat-value-${id}`}>{value}</strong><span className="stat-detail" data-testid={`stat-detail-${id}`}>{detail||' '}</span></div>;
+export const DateFilters = ({dates,setDates,prefix='report'}) => <div className="date-filters"><CalendarDays size={15}/><input aria-label="From date" type="date" data-testid={`${prefix}-start-date`} value={dates.start} onChange={e=>setDates({...dates,start:e.target.value})}/><span>—</span><input aria-label="To date" type="date" data-testid={`${prefix}-end-date`} value={dates.end} min={dates.start} onChange={e=>setDates({...dates,end:e.target.value})}/></div>;
+export const yearDates = () => ({start:`${new Date().getFullYear()}-01-01`,end:`${new Date().getFullYear()}-12-31`});
+export const Table = ({headers,children,id}) => <div className="table-scroll"><table className="data-table" data-testid={id}><thead><tr>{headers.map((h,i)=><th key={i}>{h}</th>)}</tr></thead><tbody>{children}</tbody></table></div>;
+export const ErrorNotice = ({error}) => error&&<div className="error-banner" role="alert" data-testid="workspace-error">{error}</div>;
+export const SecureImage = ({src,alt,...props}) => {const [url,setUrl]=useState(src?.startsWith('/api/')?'':src);useEffect(()=>{let active=true;let object; if(src?.startsWith('/api/'))api.get(src.slice(4),{responseType:'blob'}).then(r=>{object=URL.createObjectURL(r.data);if(active)setUrl(object)}).catch(()=>{});else setUrl(src);return()=>{active=false;if(object)URL.revokeObjectURL(object)}},[src]);return url?<img src={url} alt={alt} {...props}/>:<div className="image-loading" aria-label={alt}/>};
+export const ScopeNotice=()=> <div className="info-banner scope-notice" data-testid="agency-scope-notice">All-agency view · Select an agency above to add or edit records.</div>;

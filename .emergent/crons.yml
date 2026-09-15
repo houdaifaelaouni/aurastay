@@ -1,0 +1,8 @@
+crons:
+  - name: expire-booking-holds
+    description: "Releases expired unpaid reservation holds every 15 minutes"
+    cron: "*/15 * * * *"
+    endpoint: "{{BASE_URL}}/api/cron/expire-holds"
+    method: POST
+    # Cron endpoints must ack 2xx immediately; enqueue/background the actual work.
+    enabled: true
