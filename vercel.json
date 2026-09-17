@@ -1,6 +1,7 @@
 {
+  "installCommand": "yarn --cwd frontend install --frozen-lockfile",
   "buildCommand": "yarn --cwd frontend build",
   "outputDirectory": "frontend/build",
   "framework": null,
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/((?!static/).*)", "destination": "/index.html" }]
 }
