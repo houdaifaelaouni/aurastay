@@ -2,6 +2,7 @@
   "name": "aurastay",
   "private": true,
   "scripts": {
+    "dev": "yarn --cwd frontend start",
     "start": "yarn --cwd frontend start",
     "build": "yarn --cwd frontend build",
     "test": "yarn --cwd frontend test"
