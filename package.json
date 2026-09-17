@@ -1,0 +1,9 @@
+{
+  "name": "aurastay",
+  "private": true,
+  "scripts": {
+    "start": "yarn --cwd frontend start",
+    "build": "yarn --cwd frontend build",
+    "test": "yarn --cwd frontend test"
+  }
+}
