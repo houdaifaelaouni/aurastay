@@ -14,6 +14,7 @@ export default function BookingPanel({property:p}) {
   const [review,setReview]=useState(false);
   const [details,setDetails]=useState({guest_name:'',guest_email:'',guest_phone:'',accepted_terms:false});
   const [reviewed,setReviewed]=useState(false);
+  const [checkoutLoading,setCheckoutLoading]=useState(false);
   useEffect(()=>{setQuote(null);setError('');setReviewed(false)},[dates,services]);
 
   async function getQuote(e) {
@@ -64,8 +65,14 @@ export default function BookingPanel({property:p}) {
         </>:<>
           <PriceBreakdown quote={quote}/>
           <div className="info-banner" data-testid="review-rental-instructions">{p.agency.payment_instructions}</div>
-          <div className="warning-banner" data-testid="checkout-disabled-notice">Whop payments are not enabled. No reservation has been made and no payment has been taken.</div>
-          <Action id="whop-checkout-button" type="button" disabled><LockKeyhole size={16}/> Pay {euro(quote?.reservation_fee)} with Whop</Action>
+          <div className="info-banner" data-testid="checkout-security-note"><LockKeyhole size={15}/> Secure reservation fee payment powered by Whop.</div>
+          <Action id="whop-checkout-button" type="button" disabled={checkoutLoading} onClick={async()=>{
+            setCheckoutLoading(true);setError('');
+            try {
+              const {data}=await api.post(`/properties/${p.id}/checkout`,{...dates,guests:Number(dates.guests),services,...details});
+              window.location.assign(data.purchase_url);
+            } catch(e) { setError(errorMessage(e));setCheckoutLoading(false); }
+          }}><LockKeyhole size={16}/> {checkoutLoading?'Opening secure checkout…':`Pay ${euro(quote?.reservation_fee)} with Whop`}</Action>
           <a className="text-link" data-testid="review-contact-agency" href={`mailto:${p.agency.email}`}>Contact {p.agency.name} instead <ArrowRight size={15}/></a>
         </>}
       </form>
