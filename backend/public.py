@@ -1,4 +1,8 @@
+import os
 import re
+import urllib.error
+import urllib.request
+import json
 from datetime import date
 from fastapi import APIRouter, HTTPException, Query
 from core import db
@@ -45,7 +49,7 @@ async def catalogue(destination:str='', check_in:date|None=None, check_out:date|
 async def detail(id:str):
     p=await published_property(id)
     p['fee_settings']=await fee_settings()
-    p['payments_enabled']=False
+    p['payments_enabled']=bool(os.getenv('WHOP_API_KEY') and os.getenv('WHOP_COMPANY_ID'))
     return p
 
 @router.get('/properties/{id}/availability')
@@ -69,10 +73,42 @@ async def quote(id:str, data:QuoteInput):
 
 @router.post('/properties/{id}/checkout')
 async def checkout(id:str,data:BookingInput):
-    await quote(id,QuoteInput(**data.model_dump(include={'check_in','check_out','guests','services'})))
-    # Deliberate fail-closed gate. No charge, hold or confirmation can be created
-    # until Whop credentials AND merchant eligibility are configured and verified.
-    raise HTTPException(503,'Online reservations are not open yet. No payment has been taken. Please contact the agency.')
+    q=await quote(id,QuoteInput(**data.model_dump(include={'check_in','check_out','guests','services'})))
+    api_key=os.getenv('WHOP_API_KEY')
+    company_id=os.getenv('WHOP_COMPANY_ID')
+    if not api_key or not company_id:
+        raise HTTPException(503,'Online reservations are not configured. Please contact the agency.')
+    payload={
+        'plan': {
+            'title': f'AuraStay reservation fee — {id}',
+            'plan_type': 'one_time',
+            'initial_price': round(float(q['reservation_fee']), 2),
+            'currency': 'eur',
+            'company_id': company_id,
+            'application_fee_amount': round(float(q.get('platform_commission', 0)), 2),
+        },
+        'metadata': {
+            'property_id': id,
+            'guest_email': str(data.guest_email),
+            'check_in': data.check_in.isoformat(),
+            'check_out': data.check_out.isoformat(),
+        },
+    }
+    request=urllib.request.Request(
+        'https://api.whop.com/api/v1/checkout_configurations',
+        data=json.dumps(payload).encode(),
+        headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
+        method='POST',
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            result=json.loads(response.read().decode())
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
+        raise HTTPException(502,'Whop could not create the reservation checkout. No payment has been taken.')
+    purchase_url=result.get('purchase_url')
+    if not purchase_url:
+        raise HTTPException(502,'Whop returned an invalid checkout response. No payment has been taken.')
+    return {'purchase_url': purchase_url, 'quote': {k:v for k,v in q.items() if k not in ['agency_rate','agency_gross','platform_commission','agency_retained','owner_allocation']}}
 
 @router.get('/bookings/status/{token}')
 async def booking_status(token:str):
