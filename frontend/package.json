@@ -53,6 +53,7 @@
     "react-router-dom": "7.15.0",
     "react-scripts": "5.0.1",
     "recharts": "3.6.0",
+    "serve": "14.2.1",
     "sonner": "2.0.3",
     "swr": "2.3.8",
     "tailwind-merge": "3.2.0",
@@ -61,7 +62,8 @@
     "zod": "3.24.4"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "craco build && serve -s build -l 3000",
+    "dev": "craco start",
     "build": "craco build",
     "test": "craco test"
   },
