@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URL=${MONGO_URL}
+      - DB_NAME=${DB_NAME:-aurastay}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:8000}
+      - ENABLE_HEALTH_CHECK=${ENABLE_HEALTH_CHECK:-true}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/api/health').raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=${REACT_APP_API_URL:-http://backend:8000}
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # Optional: MongoDB for local development
+  # Uncomment to run MongoDB locally
+  # mongodb:
+  #   image: mongo:6
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     - MONGO_INITDB_DATABASE=${DB_NAME:-aurastay}
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   restart: unless-stopped
+
+# volumes:
+#   mongodb_data:

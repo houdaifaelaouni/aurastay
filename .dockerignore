@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+target/
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Test
+coverage/
+.test/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp/
+.pnp.js
+
+# Docker
+Dockerfile*
+docker-compose*
+.docker/
+
+# Railway
+railway.json
+railway.yml
+
+# Local development
+*.local
+*.dev
+
+# Temporary files
+tmp/
+temp/

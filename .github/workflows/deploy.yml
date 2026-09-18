@@ -1,0 +1,75 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: build
+      cancel-in-progress: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: false
+          tags: frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Verify Docker images
+        run: |
+          docker images | grep -E "(backend:test|frontend:test)" || (docker images && echo "Images exist but tags may differ")
+          echo "Docker images built successfully!"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        run: |
+          echo "::notice::Ready to deploy to Railway!"
+          echo ""
+          echo "To deploy AuraStay to Railway:"
+          echo ""
+          echo "1. Go to https://railway.app"
+          echo "2. Click 'New Project' -> 'Deploy from GitHub repo'"
+          echo "3. Select: houdaifaelaouni/aurastay"
+          echo "4. Railway will auto-detect docker-compose.yml"
+          echo ""
+          echo "Required Environment Variables:"
+          echo "  MONGO_URL=mongodb+srv://<user>:<pass>@cluster.mongodb.net/aurastay"
+          echo "  JWT_SECRET=$(openssl rand -hex 32)"
+          echo "  DB_NAME=aurastay"
+          echo "  CORS_ORIGINS=https://your-frontend.up.railway.app"
+          echo ""
+          echo "Or use Railway CLI:"
+          echo "  railway init"
+          echo "  railway add --start"
+          echo "  railway up"

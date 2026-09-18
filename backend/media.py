@@ -7,12 +7,17 @@ from auth import repo,current_user
 from fastapi.security import HTTPAuthorizationCredentials
 
 router=APIRouter()
+
+# Use local storage fallback if emergent integration is not configured
+USE_EMERGENT_STORAGE = bool(os.environ.get('EMERGENT_LLM_KEY') and os.environ.get('INTEGRATION_PROXY_URL'))
 STORAGE_BASE=(os.environ.get('INTEGRATION_PROXY_URL') or '').strip() or 'https://integrations.emergentagent.com'
 STORAGE_URL=STORAGE_BASE.rstrip('/')+'/objstore/api/v1/storage'
 storage_key=None
 lock=asyncio.Lock()
 
 async def storage_request(method,path,content=None,content_type=None):
+    if not USE_EMERGENT_STORAGE:
+        raise HTTPException(503, 'Storage service not configured. Set EMERGENT_LLM_KEY and INTEGRATION_PROXY_URL.')
     global storage_key
     async with httpx.AsyncClient(timeout=60) as client:
         for attempt in range(2):

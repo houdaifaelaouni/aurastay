@@ -1,0 +1,40 @@
+{
+  "services": {
+    "backend": {
+      "dockerfilePath": "./backend/Dockerfile",
+      "environment": {
+        "MONGO_URL": "${MONGO_URL}",
+        "DB_NAME": "${DB_NAME:-aurastay}",
+        "JWT_SECRET": "${JWT_SECRET}",
+        "CORS_ORIGINS": "${CORS_ORIGINS:-https://aurastay.up.railway.app}"
+      },
+      "ports": [8000],
+      "healthcheck": {
+        "path": "/api/health",
+        "port": 8000,
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      }
+    },
+    "frontend": {
+      "dockerfilePath": "./frontend/Dockerfile",
+      "environment": {
+        "REACT_APP_API_URL": "${REACT_APP_API_URL:-https://aurastay-backend.up.railway.app}"
+      },
+      "ports": [3000],
+      "healthcheck": {
+        "path": "/",
+        "port": 3000,
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      }
+    }
+  },
+  "plugins": {
+    "docker-compose": {
+      "enabled": true
+    }
+  }
+}
