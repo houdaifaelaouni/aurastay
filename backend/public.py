@@ -116,7 +116,7 @@ async def booking_status(token:str):
     b=await db.bookings.find_one({'status_token':token},{'_id':0})
     if not b: raise HTTPException(404,'Reservation not found')
     p=await db.properties.find_one({'id':b['property_id']},{'_id':0,'photos':1,'city':1,'country':1})
-    fields=['reference','property_name','check_in','check_out','guests','status','fee_status','rental_status','payment_instructions','services']
+    fields=['reference','property_name','check_in','check_out','guests','status','fee_status','rental_status','payment_instructions','services','checkin_status']
     public={k:b.get(k) for k in fields}
     public['quote']={k:v for k,v in b['quote'].items() if k not in ['agency_rate','agency_gross','platform_commission','agency_retained','owner_allocation']}
     public['property']=p

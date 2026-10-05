@@ -14,6 +14,10 @@ export const photoUrl = url => url?.startsWith('/api/') ? `${BASE}${url}` : url;
 export const errorMessage = e => {const detail=e.response?.data?.detail; return typeof detail==='string'?detail:Array.isArray(detail)?detail.map(x=>x.msg.replace('Value error, ','')).join('. '):'Something went wrong. Please try again.';};
 export const today = () => new Date().toLocaleDateString('en-CA');
 export const dateLabel = value => new Date(`${value}T12:00:00`).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+export async function downloadFile(path, filename) {
+  const {data}=await api.get(path,{responseType:'blob'});
+  const url=URL.createObjectURL(data); const a=document.createElement('a'); a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);
+}
 export async function downloadCSV(kind, params) {
   const {data}=await api.get(`/workspace/${kind}/export`,{params,responseType:'blob'});
   const url=URL.createObjectURL(data); const a=document.createElement('a'); a.href=url;a.download=`aurastay-${kind}.csv`;a.click();URL.revokeObjectURL(url);

@@ -10,6 +10,7 @@ from workspace import router as workspace_router
 from platform_routes import router as platform_router
 from media import router as media_router
 from jobs import router as jobs_router
+from checkin import router as checkin_router
 
 @asynccontextmanager
 async def lifespan(app):
@@ -20,7 +21,7 @@ async def lifespan(app):
 app = FastAPI(title="AuraStay", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=os.environ['CORS_ORIGINS'].split(','),
                    allow_credentials=False, allow_methods=['*'], allow_headers=['*'])
-for router in (auth_router, public_router, workspace_router, platform_router, media_router, jobs_router):
+for router in (auth_router, public_router, workspace_router, platform_router, media_router, jobs_router, checkin_router):
     app.include_router(router, prefix='/api')
 
 @app.get('/api/health')
