@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1d3b33">
+<title>Check-in Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#1d3b33;--gold:#c8a96a;--ink:#161b19;--muted:#6b726e;--line:#e4e6e2;--bg:#f3f4f1;--card:#fff;--field:#fff;--soft:#eef2ef;--ok:#2f6b47;--okbg:#e5f2e9;--bad:#a63d32;--badbg:#fbeeeb}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--ink:#eceeec;--muted:#9aa29d;--line:#2a302d;--bg:#0f1311;--card:#171c1a;--field:#1c2220;--soft:#1d2622;--okbg:#18291f;--badbg:#2c1a17;--ok:#7cc497;--bad:#ef8f83}}
+*{box-sizing:border-box}html,body{margin:0}body{font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+.top{background:var(--brand);color:#fff;padding:18px 16px calc(64px)}
+.top-in{max-width:520px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top b{display:block;font-size:17px;letter-spacing:-.01em}.top span{font-size:12px;opacity:.7}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:2px}
+.gear{background:rgba(255,255,255,.12);border:0;color:#fff;width:38px;height:38px;border-radius:10px;cursor:pointer;display:grid;place-items:center}
+main{max-width:520px;margin:-48px auto 0;padding:0 16px 40px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.05)}
+.scan{display:flex;flex-direction:column;gap:12px}
+.viewport{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#0d1110;display:grid;place-items:center;color:#8d968f}
+.viewport video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}.viewport.on video{display:block}
+.frame{position:absolute;inset:18%;border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.35);display:none}.viewport.on .frame{display:block}
+.frame i{position:absolute;width:26px;height:26px;border:3px solid var(--gold)}.frame i:nth-child(1){top:-2px;left:-2px;border-right:0;border-bottom:0;border-top-left-radius:12px}.frame i:nth-child(2){top:-2px;right:-2px;border-left:0;border-bottom:0;border-top-right-radius:12px}.frame i:nth-child(3){bottom:-2px;left:-2px;border-right:0;border-top:0;border-bottom-left-radius:12px}.frame i:nth-child(4){bottom:-2px;right:-2px;border-left:0;border-top:0;border-bottom-right-radius:12px}
+.idle{text-align:center;font-size:13px;padding:20px}.idle svg{margin-bottom:8px}.viewport.on .idle{display:none}
+.btn{font:inherit;font-weight:600;font-size:15px;border-radius:11px;padding:13px 18px;border:1px solid var(--brand);background:var(--brand);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}.btn:disabled{opacity:.45}
+.or{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}.or:before,.or:after{content:'';flex:1;height:1px;background:var(--line)}
+.row{display:flex;gap:8px}.row>input{flex:1}.row>.btn{width:auto}
+input{font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:12px;width:100%;min-width:0}
+input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+#code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+.verdict{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--soft)}
+.verdict .ic{flex:0 0 42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--card)}
+.verdict h2{margin:0;font-size:19px;letter-spacing:-.01em}.verdict p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.verdict.good{background:var(--okbg)}.verdict.good h2,.verdict.good .ic{color:var(--ok)}.verdict.bad{background:var(--badbg)}.verdict.bad h2,.verdict.bad .ic{color:var(--bad)}
+.verdict.ready h2,.verdict.ready .ic{color:var(--brand)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .verdict.ready h2,:root:not([data-theme=light]) .verdict.ready .ic{color:var(--gold)}}
+dl{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;margin:16px 2px}dt{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}dd{margin:3px 0 0;font-weight:600;overflow-wrap:anywhere}dd.wide{grid-column:1/-1}
+.confirm{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.small{font-size:12px;color:var(--muted);margin:0}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in"><div><div class="eyebrow">Check-in desk</div><b>Welcome your guests</b><span>Scan the pass. Each code works once.</span></div>
+<button class="gear" id="gear" type="button" aria-label="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div></header>
+<main>
+  <section class="card stack" id="setup" hidden>
+    <div class="verdict ready" style="background:transparent;padding:0"><div><h2>Connect your sheet</h2><p>Paste your Apps Script web app URL once. Scanning a pass also connects it automatically.</p></div></div>
+    <input id="scriptUrl" placeholder="https://script.google.com/macros/s/…/exec">
+    <button class="btn" id="saveUrl" type="button">Save</button>
+  </section>
+  <section class="card scan">
+    <div class="viewport" id="viewport"><video id="video" playsinline muted></video><div class="frame"><i></i><i></i><i></i><i></i></div>
+      <div class="idle"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg><div>Point the camera at the QR code<br>on the guest's pass</div></div></div>
+    <button class="btn" id="cam" type="button">Start scanning</button>
+    <div class="or">or enter the code</div>
+    <form id="manual" class="row"><input id="code" placeholder="ABCDE FGHJK" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn ghost" type="submit">Check</button></form>
+  </section>
+  <section class="card" id="result" hidden>
+    <div class="verdict" id="verdict"><div class="ic" id="vIcon"></div><div><h2 id="vTitle"></h2><p id="vText"></p></div></div>
+    <dl id="details"></dl>
+    <div class="confirm" id="confirmBox" hidden>
+      <div class="row"><input id="staff" placeholder="Your name"><input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN" style="max-width:130px"></div>
+      <button class="btn" id="confirm" type="button">Confirm check-in</button>
+    </div>
+    <button class="btn ghost" id="next" type="button" style="margin-top:10px">Next guest</button>
+  </section>
+  <p class="small" style="text-align:center">Check the guest's ID before confirming.</p>
+</main>
+<script src="../assets/vendor/jsQR.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const store={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}}};
+const params=new URLSearchParams(location.search);
+function fromB64url(s){try{return decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/'))))}catch{return ''}}
+const fromLink=params.get('s')&&fromB64url(params.get('s'));
+if(fromLink&&/^https:\/\/script\.google(usercontent)?\.com\//.test(fromLink))store.set('desk-script',fromLink);
+let SCRIPT_URL=store.get('desk-script')||'';
+$('scriptUrl').value=SCRIPT_URL;$('setup').hidden=!!SCRIPT_URL;
+$('gear').onclick=()=>{$('setup').hidden=!$('setup').hidden};
+$('saveUrl').onclick=()=>{const v=$('scriptUrl').value.trim();if(!/^https?:\/\//.test(v))return;SCRIPT_URL=v;store.set('desk-script',v);$('setup').hidden=true};
+$('staff').value=store.get('desk-staff')||'';
+let current='';
+const icons={ready:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  good:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  bad:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+  wait:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9"/></svg>'};
+function verdict(kind,title,text){$('verdict').className='verdict '+(kind==='wait'?'':kind);$('vIcon').innerHTML=icons[kind];$('vTitle').textContent=title;$('vText').textContent=text||'';$('result').hidden=false;$('result').scrollIntoView({behavior:'smooth',block:'nearest'})}
+const fmt=v=>{const d=new Date(v+'T12:00:00');return isNaN(d)?v:d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})};
+function details(r){
+  const rows=[['Guest',r['Guest'],1],['Property',r['Property'],1],['Check-in',fmt(r['Check-in'])],['Check-out',fmt(r['Check-out'])],['Guests',r['Guests']],['Reference',r['Reference']]];
+  $('details').innerHTML='';rows.forEach(([k,v,wide])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;dd.textContent=v||'—';const w=document.createElement('div');if(wide)w.style.gridColumn='1/-1';w.append(dt,dd);$('details').appendChild(w)});
+}
+async function api(body){const r=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
+async function check(value){
+  if(!value)return;
+  if(!SCRIPT_URL){$('setup').hidden=false;return verdict('bad','Sheet not connected','Paste your Apps Script URL above, or open the desk by scanning a pass.')}
+  verdict('wait','Checking…','');$('details').innerHTML='';$('confirmBox').hidden=true;
+  try{
+    const res=await api({action:'lookup',code:value});
+    if(!res.ok)return verdict('bad','Not a valid pass',res.error);
+    current=res.code;details(res.record);
+    if(res.valid){verdict('ready','Ready to check in','Check the ID, then confirm below.');$('confirmBox').hidden=false;($('staff').value?$('pin'):$('staff')).focus()}
+    else verdict('bad','Cannot check in',res.reason);
+  }catch(e){verdict('bad','Sheet unreachable','Check your connection and try again.')}
+}
+$('confirm').onclick=async()=>{
+  $('confirm').disabled=true;store.set('desk-staff',$('staff').value);
+  try{
+    const res=await api({action:'confirm',code:current,pin:$('pin').value,staff:$('staff').value});
+    if(!res.ok)return verdict('bad',res.error==='Wrong staff PIN'?'Wrong PIN':'Cannot check in',res.error);
+    $('confirmBox').hidden=true;details(res.record);verdict('good','Checked in','Recorded '+res.record['Checked in at']+'. Welcome them in!');
+  }catch(e){verdict('bad','Sheet unreachable','Nothing was saved. Try again.')}
+  finally{$('confirm').disabled=false;$('pin').value=''}
+};
+$('manual').onsubmit=e=>{e.preventDefault();check($('code').value)};
+$('next').onclick=()=>{$('result').hidden=true;$('code').value='';$('pin').value='';current='';history.replaceState(null,'',location.pathname);window.scrollTo({top:0,behavior:'smooth'})};
+
+let stream=null;
+function stop(){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('viewport').classList.remove('on');$('cam').textContent='Start scanning'}
+async function start(){
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}
+  catch(e){return verdict('bad','Camera unavailable','Allow camera access, or type the code printed under the QR.')}
+  const v=$('video');v.srcObject=stream;await v.play();$('viewport').classList.add('on');$('cam').textContent='Stop scanning';
+  const c=document.createElement('canvas'),ctx=c.getContext('2d',{willReadFrequently:true});
+  (function tick(){if(!stream)return;
+    if(v.readyState===v.HAVE_ENOUGH_DATA){c.width=v.videoWidth;c.height=v.videoHeight;ctx.drawImage(v,0,0);
+      const hit=jsQR(ctx.getImageData(0,0,c.width,c.height).data,c.width,c.height,{inversionAttempts:'dontInvert'});
+      if(hit&&hit.data){stop();if(navigator.vibrate)navigator.vibrate(60);
+        try{const u=new URL(hit.data);const s=u.searchParams.get('s');const su=s&&fromB64url(s);if(su&&/^https:\/\/script\.google/.test(su)&&!SCRIPT_URL){SCRIPT_URL=su;store.set('desk-script',su);$('setup').hidden=true}}catch{}
+        return check(hit.data)}}
+    requestAnimationFrame(tick)})();
+}
+$('cam').onclick=()=>stream?stop():start();
+if(params.get('code'))check(params.get('code'));
+</script>
+</body>
+</html>
