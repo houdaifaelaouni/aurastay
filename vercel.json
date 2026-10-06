@@ -1,7 +1,43 @@
 {
   "installCommand": "if [ -d frontend ]; then yarn --cwd frontend install --frozen-lockfile; else yarn install --frozen-lockfile; fi",
-  "buildCommand": "if [ -d frontend ]; then yarn --cwd frontend build && mkdir -p build && cp -R frontend/build/. build/; else yarn build; fi",
+  "buildCommand": "if [ -d frontend ]; then yarn --cwd frontend build && mkdir -p build && cp -R frontend/build/. build/; else yarn build; fi && mkdir -p build/pass && cp -R checkin-kit/. build/pass/ && rm -f build/pass/vercel.json build/pass/README.md",
   "outputDirectory": "build",
   "framework": null,
-  "rewrites": [{ "source": "/((?!static/).*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/((?!static/|pass/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/pass",
+      "destination": "/pass/",
+      "permanent": false
+    },
+    {
+      "source": "/pass/checkin",
+      "destination": "/pass/checkin/",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/pass/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self)"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    }
+  ]
 }
