@@ -39,6 +39,6 @@ Or run both with `docker compose up`.
 
 ## Deploy
 
-- **Frontend:** Vercel, using `vercel.json` at the repo root. It builds `frontend/` and copies `checkin-kit/` to `/pass`.
+- **Frontend:** Vercel. Set the root directory to the repo root (uses `vercel.json`) or to `frontend/` (uses `frontend/vercel.json`). `yarn build` copies `checkin-kit/` to `/pass`.
 - **Backend:** Railway, using `railway.json` and `backend/Dockerfile`.
 - **CI:** `.github/workflows/deploy.yml` builds both Docker images on every push and PR.

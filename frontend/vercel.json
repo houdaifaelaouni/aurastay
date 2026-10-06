@@ -1,8 +1,4 @@
 {
-  "installCommand": "if [ -d frontend ]; then yarn --cwd frontend install --frozen-lockfile; else yarn install --frozen-lockfile; fi",
-  "buildCommand": "if [ -d frontend ]; then yarn --cwd frontend build && mkdir -p build && cp -R frontend/build/. build/; else yarn build; fi",
-  "outputDirectory": "build",
-  "framework": null,
   "rewrites": [
     {
       "source": "/((?!static/|pass/).*)",

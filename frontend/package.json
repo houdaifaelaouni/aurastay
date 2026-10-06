@@ -23,9 +23,9 @@
     "tailwindcss-animate": "1.0.7"
   },
   "scripts": {
-    "start": "craco build && serve -s build -l 3000",
+    "start": "yarn build && serve -s build -l 3000",
     "dev": "craco start",
-    "build": "craco build",
+    "build": "craco build && node scripts/add-checkin-kit.js",
     "test": "craco test"
   },
   "browserslist": {
