@@ -29,3 +29,4 @@ pypdf>=4.0.0
 jq>=1.6.0
 typer>=0.9.0
 # emergentintegrations==0.2.0  # Removed: private package not available on PyPI
+httpx>=0.27.0

@@ -26,7 +26,15 @@ docker compose up --build
 
 Data is kept in a Docker volume between runs. To change the logins or secrets, put them in a `.env` file next to `docker-compose.yml` before the first run. Stop with `Ctrl+C`, and wipe the data with `docker compose down -v`.
 
-**Without Docker.** You need Python 3.11, Node 20 with Yarn, and MongoDB running on port 27017.
+**Without Docker** (for example on an older Mac). Install [Python 3](https://www.python.org/downloads/macos/) and [Node.js](https://nodejs.org). For the database, create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register), or run MongoDB locally. Then run:
+
+```bash
+./run-local.sh
+```
+
+On the first run it asks for your MongoDB connection string and saves it, with the logins above, in `backend/.env`. It then installs everything and opens http://localhost:3000.
+
+Or start each part by hand:
 
 ```bash
 # API
