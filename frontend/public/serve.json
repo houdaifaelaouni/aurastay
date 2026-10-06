@@ -1,0 +1,29 @@
+{
+  "rewrites": [
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/saved",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/stays/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/booking/**",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/workspace",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/workspace/**",
+      "destination": "/index.html"
+    }
+  ],
+  "trailingSlash": true
+}

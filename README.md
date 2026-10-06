@@ -13,19 +13,35 @@ A rental marketplace and agency workspace. Guests browse properties and pay a sm
 
 ## Run locally
 
-```bash
-# Backend (needs MongoDB)
-cd backend
-pip install -r requirements.txt
-MONGO_URL=mongodb://localhost:27017 DB_NAME=aurastay JWT_SECRET=dev uvicorn server:app --reload --port 8000
+**With Docker (easiest).** Install [Docker Desktop](https://www.docker.com/products/docker-desktop/), then from the repo folder run:
 
-# Frontend
-cd frontend
-yarn install
-REACT_APP_BACKEND_URL=http://localhost:8000 yarn dev
+```bash
+docker compose up --build
 ```
 
-Or run both with `docker compose up`.
+- Marketplace: http://localhost:3000
+- Agency workspace: http://localhost:3000/login. Sign in as `owner@aurastay.com` / `owner1234` (platform owner) or `manager@aurastay.com` / `manager1234` (agency manager).
+- Check-in kit: http://localhost:3000/pass/ (desk at `/pass/checkin/`)
+- API: http://localhost:8000/api/health
+
+Data is kept in a Docker volume between runs. To change the logins or secrets, put them in a `.env` file next to `docker-compose.yml` before the first run. Stop with `Ctrl+C`, and wipe the data with `docker compose down -v`.
+
+**Without Docker.** You need Python 3.11, Node 20 with Yarn, and MongoDB running on port 27017.
+
+```bash
+# API
+cd backend
+pip install -r requirements.txt
+MONGO_URL=mongodb://localhost:27017 DB_NAME=aurastay JWT_SECRET=dev \
+BOOTSTRAP_EMAIL=owner@aurastay.com BOOTSTRAP_PASSWORD=owner1234 \
+MANAGER_EMAIL=manager@aurastay.com MANAGER_PASSWORD=manager1234 \
+uvicorn server:app --port 8000
+
+# Web app (second terminal)
+cd frontend
+yarn install
+REACT_APP_BACKEND_URL=http://localhost:8000 yarn start
+```
 
 ## Configuration
 

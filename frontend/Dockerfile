@@ -1,40 +1,25 @@
-# Frontend Dockerfile for React (CRA)
-# Multi-stage build for optimized production image
+# Builds the React app and serves it on :3000.
+# Build context is the repo root (see docker-compose.yml) so checkin-kit is
+# copied in and served at /pass.
 
-# Stage 1: Build the React app
 FROM node:20-alpine AS builder
+WORKDIR /app/frontend
 
-WORKDIR /app
+COPY frontend/package.json frontend/yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-# Copy package files
-COPY package.json yarn.lock ./
+COPY frontend/ ./
+COPY checkin-kit/ /app/checkin-kit/
 
-# Install dependencies (without frozen-lockfile to allow resolution updates)
-RUN yarn install --production=false --ignore-engines
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+RUN yarn build
 
-# Copy source files
-COPY . .
-
-# Build the app
-RUN yarn build --ignore-engines
-
-# Stage 2: Serve the built app
 FROM node:20-alpine
-
 WORKDIR /app
-
-# Copy built files from builder
-COPY --from=builder /app/build ./build
-
-# Install serve to run the production build
-RUN yarn global add serve
-
-# Expose port
+RUN yarn global add serve@14
+COPY --from=builder /app/frontend/build ./build
 EXPOSE 3000
-
-# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
-
-# Run the server
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["serve", "build", "-l", "3000"]
